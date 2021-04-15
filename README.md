@@ -8,4 +8,4 @@ A few example programs can be found in example folder.
 
 # Documentation
 
-Coming soon.
+You can read the documentation at [https://spyce.readthedocs.io/
