@@ -4,7 +4,7 @@ from error_codes import *
 
 import sys
 import os
-
+import yaml
 class spyce_core:
     
       
@@ -37,64 +37,43 @@ class spyce_core:
     REF_FRAME='J2000'
     ABCORR = 'NONE'
     
-    def __init__(self, i_spyce_lib_location, i_cspice_lib_location, i_model_file_location):
-        """
-        Starts the SPYCE Core system.
+    def __init__(self, spyce_core_location, model):
 
-        Parameters
-        ----------
-        i_spyce_lib_location : str
-            Path to SPYCE's root directory.
-        i_cspice_lib_location : str
-            Path to cspice.so
-        i_model_file_location : str
-            Path to model.dat.
-
-        Returns
-        -------
-        None.
-
-        """
+        self.SPYCE_LIB=spyce_core_location
+        config=self.read_config()
+        self.CSPICE=CDLL(self.CSPICE_LIB);
+#        model_file_location=i_model_file_location
         
-        
-        self.SPYCE_LIB=i_spyce_lib_location
-        self.CSPICE_LIB=i_cspice_lib_location
-        self.CSPICE=CDLL(i_cspice_lib_location);
-        model_file_location=i_model_file_location
-        
-        self.read_model_spyce(model_file_location)
+        self.read_model_spyce(model)
         return
     
+    def read_config(self):
+        configFile=self.SPYCE_LIB+"/config/config.yaml"
+        with open(configFile) as f:
+            config = yaml.load(f,Loader=yaml.FullLoader)
+            
+        self.CSPICE_LIB=config["cspice_location"]
+        return 
+            
     def read_model_spyce(self, model_file):
-        """
         
-    
-        Parameters
-        ----------
-        model_file : str
-            DESCRIPTION.
-    
-        Returns
-        -------
-        None.
-    
-        """
-        with open(model_file) as f:
-            content = f.readlines()
-        # Now that we know the length of model.dat file, we can define the variable MMAX, and use it to initialise other important variables.
+        # with open(model_file) as f:
+        #     content = f.readlines()
+        # # Now that we know the length of model.dat file, we can define the variable MMAX, and use it to initialise other important variables.
         
-        #MMAX = len(content)
+        # #MMAX = len(content)
        
-
-        for line in content:
+        for line in model_file:
            new_body=spyce_list_bodies()
-           if(self.check_list_array_forID(line.strip())==False):
+           if(self.check_list_array_forID(line)==False):
                
-               new_body.set_ID(line.strip())
+               new_body.set_ID(line)
                eph_temp=new_body.get_ibc_eph_ref_by_id(line,self)
-               new_body.set_ibc_eph(eph_temp[1])
-               self.add_kernelNametoList(eph_temp[0])
-               self.list_bodies_array.append(new_body)
+               if eph_temp is not None:
+                   new_body.set_ibc_eph(eph_temp[1])
+                   self.add_kernelNametoList(eph_temp[0])
+                   self.list_bodies_array.append(new_body)
+
         
         self.load_kernels_all()        
         return
@@ -109,7 +88,7 @@ class spyce_core:
         spyce_core_obj : obj
             spyce_core class Object.
         b_id : str
-            ID of the body read from the model.dat file.
+            ID of the body read from the model array.
 
         Returns
         -------
@@ -120,7 +99,7 @@ class spyce_core:
         if(len(self.list_bodies_array)>0):
             found=False
             for body in self.list_bodies_array:
-                if(body.get_ID().strip()==b_id.strip()):
+                if(body.get_ID()==b_id):
                     found=True
             
             return found
@@ -169,7 +148,7 @@ class spyce_core:
         
         return
     
-    
+
     def return_SPICE_Object(self): 
         path=self.CSPICE_LIB
         return CDLL(path);

@@ -10,10 +10,9 @@ from spyce_core import *
 import ctypes
 
 i_spyce_lib_location="/media/projectdrv/programming-workspace/python/spyce/"
-i_cspice_lib_location="/media/projectdrv/programming-workspace/python/spyce/cspice/lib/cspice.so"
-i_model_file_location="/media/projectdrv/programming-workspace/python/spyce/examples/example_convertTime/model.dat"
+model=[10, 399]
 
-spyce=spyce_core(i_spyce_lib_location, i_cspice_lib_location, i_model_file_location)
+spyce=spyce_core(i_spyce_lib_location,model)
 
 b_string1="2019-12-18T12:28:24"
 

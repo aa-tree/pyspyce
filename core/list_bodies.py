@@ -47,7 +47,7 @@ class spyce_list_bodies:
             line=line.rstrip();
             line_split=line.split(",")
 
-            if line_split[0].strip()==bodyid.strip():
+            if int(line_split[0].strip())== bodyid:
                  array_toReturn = [line_split[2],line_split[3]]
                  return array_toReturn
             
