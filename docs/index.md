@@ -1,6 +1,6 @@
 # Introduction
 
-This project is a python wrapper for NAIF's SPICE (https://naif.jpl.nasa.gov/naif/).
+This project is a python wrapper for [NAIF's SPICE](https://naif.jpl.nasa.gov/naif/).
 
 # Installation
 

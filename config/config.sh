@@ -14,5 +14,5 @@ ar x cspice.a
 ar x csupport.a
 gcc -shared -o $org/cspice.so *.o
 echo "Output file: $org/cspice.so"
-echo "cspice_location: $org/cspice.so" >> $org/config.yaml
+echo "cspice_location: $org/cspice.so" > $org/config.yaml
 echo "Config generated: $org/config.yaml"
