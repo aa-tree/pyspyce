@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 17 14:23:19 2021
 
-@author: Anshuk Attri(contact@anshukattri.in)
-
-"""
-import spyce_core
+import core.spyce_core
 
 class spyce_list_bodies:
     # This class serves as a temporary data store for body model information.

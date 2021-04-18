@@ -1,19 +1,20 @@
 from ctypes import *
-from list_bodies import *
-from error_codes import *
+from core.list_bodies import *
+from core.error_codes import *
 
 import sys
 import os
 import yaml
+from core.state import *
+from core.cspice_supp import *
+from core.spiceypy_supp import *
+from spiceypy import *
+
 class spyce_core:
     
       
     SPYCE_LIB = "../../"
-    CSPICE_LIB =" ../../lib/cspice.so"
-    model_file_location="model.dat"
-    CSPICE=None;
-    
-    
+   
     list_bodies_array=[]
     list_kernels=[]
     
@@ -37,23 +38,21 @@ class spyce_core:
     REF_FRAME='J2000'
     ABCORR = 'NONE'
     
-    def __init__(self, spyce_core_location, model):
+    VDIM=6 #Standard min state vector length.
+    
+    def __init__(self, spyce_core_location, model=[0]):
 
         self.SPYCE_LIB=spyce_core_location
-        config=self.read_config()
-        self.CSPICE=CDLL(self.CSPICE_LIB);
-#        model_file_location=i_model_file_location
-        
         self.read_model_spyce(model)
         return
     
-    def read_config(self):
-        configFile=self.SPYCE_LIB+"/config/config.yaml"
-        with open(configFile) as f:
-            config = yaml.load(f,Loader=yaml.FullLoader)
+    # def read_config(self):
+    #     configFile=self.SPYCE_LIB+"/config/config.yaml"
+    #     with open(configFile) as f:
+    #         config = yaml.load(f,Loader=yaml.FullLoader)
             
-        self.CSPICE_LIB=config["cspice_location"]
-        return 
+    #     self.CSPICE_LIB=config["cspice_location"]
+    #     return 
             
     def read_model_spyce(self, model_file):
         
@@ -127,10 +126,11 @@ class spyce_core:
 
         
     def load_kernels_all(self):
-        cDLL=self.return_SPICE_Object()
+        #cDLL=self.return_SPICE_Object()
         for kernel in self.list_kernels:
             kernel_path=self.SPYCE_LIB+"eph/"+kernel
-            cDLL.furnsh_c(kernel_path.encode('utf-8'))
+            #cDLL.furnsh_c(kernel_path.encode('utf-8'))
+            spiceypy.furnsh(kernel_path)
         
         # Now that the required ephemerides have been loaded, we load the leapsecond kernel
 
@@ -139,25 +139,64 @@ class spyce_core:
         else:
             kernel_path=self.SPYCE_LIB+"gkernels/naif0012.tls"
         
-        cDLL.furnsh_c(kernel_path.encode('utf-8'))
+        #cDLL.furnsh_c(kernel_path.encode('utf-8'))
+        spiceypy.furnsh(kernel_path)
+
         
         kernel_path=self.SPYCE_LIB+"gkernels/gm_de431.tpc"
-        cDLL.furnsh_c(kernel_path.encode('utf-8'))
+        #cDLL.furnsh_c(kernel_path.encode('utf-8'))
+        spiceypy.furnsh(kernel_path)
+
         kernel_path=self.SPYCE_LIB+"gkernels/latest_leapseconds.tls"
-        cDLL.furnsh_c(kernel_path.encode('utf-8'))
-        
+        #cDLL.furnsh_c(kernel_path.encode('utf-8'))
+        spiceypy.furnsh(kernel_path)
+
         return
     
 
-    def return_SPICE_Object(self): 
-        path=self.CSPICE_LIB
-        return CDLL(path);
     
 
-    def set_IBC(self, ibc):
+    def set_barycentre(self, ibc):
         self.IBC=ibc
         return
     
-    def get_IBC(self):
-        return self.IBC;
+    def get_barycentre(self):
+        return self.IBC
+    
+    def get_referenceframe(self):
+        return self.REF_FRAME
+    
+    def set_referenceframe(self, frame):
+        self.REF_FRAME=frame
+        return
+    
+    def converttime_toet(self, time):
+        return converttime_toet(time)
+    
+    def get_state_wrt_barycentre(self, time, body_id):
+        """
+        
+
+        Parameters
+        ----------
+        time : Float
+            Ephemerides time at which the position is needed.
+        body_id : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return get_state_wrt_barycentre(self, time, body_id)
+    
+    def get_mu(self, bodyid):
+        return get_mu(self, bodyid)
+    
+    def get_mu_m3(self, bodyid):
+        return get_mu_m3(self, bodyid)
+    
+
     
