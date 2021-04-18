@@ -4,7 +4,7 @@ org=$PWD
 cd $1
 echo "Configuring"
 echo "======================="
-csh makeall.csh
+#csh makeall.csh
 cd lib
 mkdir common
 cp cspice.a common/cspice.a 

@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from core.spyce_core import *
+
+
+
+def xpp_twobody_nopert(spycore_obj, t, vstate):
+    
+    if(len(vstate)<spycore_obj.VDIM):
+        exit('State array was less than the min length '+spycore_obj.VDIM)
+    
+    # get_state_wrt_ibc(spycore_obj, time, b_id)
+    
+    return
+    

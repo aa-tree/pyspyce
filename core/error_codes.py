@@ -10,3 +10,5 @@ class error_codes:
     
     spycore_not_initialised="Error: Spyce Core not initialised. Initialise it first."
     
+    spycore_var_null="Error: Spyce variable is null."
+    

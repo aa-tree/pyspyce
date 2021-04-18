@@ -1,10 +1,13 @@
 from ctypes import *
-from list_bodies import *
-from error_codes import *
+from core.list_bodies import *
+from core.error_codes import *
 
 import sys
 import os
 import yaml
+from core.state import *
+from core.cspice_supp import *
+
 class spyce_core:
     
       
@@ -12,6 +15,7 @@ class spyce_core:
     CSPICE_LIB =" ../../lib/cspice.so"
     model_file_location="model.dat"
     CSPICE=None;
+    
     
     
     list_bodies_array=[]
@@ -36,6 +40,8 @@ class spyce_core:
 
     REF_FRAME='J2000'
     ABCORR = 'NONE'
+    
+    VDIM=6 #Standard min state vector length.
     
     def __init__(self, spyce_core_location, model):
 
@@ -160,4 +166,36 @@ class spyce_core:
     
     def get_IBC(self):
         return self.IBC;
+    
+    
+    def get_state_wrt_ibc(self, time, body_id):
+        """
+        
+
+        Parameters
+        ----------
+        time : Float
+            Ephemerides time at which the position is needed.
+        body_id : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return get_state_wrt_ibc(self, time, body_id)
+    
+    def get_mu(self, bodyid):
+        return get_mu(self, bodyid)
+    
+    def get_mu_m3(self, bodyid):
+        return get_mu_m3(self, bodyid)
+    
+    def str2et_c(self, time_string):
+        return str2et_c(self, time_string)
+        
+    def spkez_c(self, body_id, time, reference_frame, abcorr, observer):
+        return spkez_c(self, body_id, time, reference_frame, abcorr, observer)
     
