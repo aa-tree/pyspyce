@@ -1,6 +1,9 @@
-#Introduction
+# Introduction
 
-This project is a python wrapper for NAIF's SPICE (https://naif.jpl.nasa.gov/naif/).
+A python based astrodynamics toolkit.
+
+This project uses [SpiceyPy](https://github.com/AndrewAnnex/SpiceyPy) to read NAIF's [SPICE](https://naif.jpl.nasa.gov/naif/).
+
 
 # Examples
 
