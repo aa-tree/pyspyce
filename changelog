@@ -1,3 +1,8 @@
-#18-04-21-2
+#4
+- The initial constructor is now called pyspyce.
+- Setup.py script is working
+
+#3
 =================
-- Updated README.md
+- Changed folder structure, to get ready for distribution
+

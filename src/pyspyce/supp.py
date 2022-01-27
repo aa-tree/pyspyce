@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from core.error_codes import *
+from spyce_core.error_codes import *
 
 def check_spyceObject(spyce_obj):
     

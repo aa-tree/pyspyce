@@ -12,3 +12,6 @@ class error_codes:
     
     spycore_var_null="Error: Spyce variable is null."
     
+    system_def_constructor_error="Wrong system definition in init_2body_system."
+    
+    system_def_2body_error="Error: Both the primary body and secondary body must be an integer ID."

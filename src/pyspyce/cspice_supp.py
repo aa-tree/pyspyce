@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from core.supp import *;
 import ctypes
 
 def str2et_c(spycore_obj, time_string):
@@ -65,7 +64,7 @@ def get_mu(spycore_obj, bodyid):
 
     else:
         # If the value of the gravitational constant is not in the kernel, read it from the supplementary file.
-        gm_file=spycore_obj.SPYCE_LIB+"/spice_supp/gm_remaining.csv"
+        gm_file= spycore_obj.DATA_DIR + "/spice_supp/gm_remaining.csv"
 
         gm_toreturn=0.0
         with open(gm_file) as f:
