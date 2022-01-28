@@ -1,6 +1,6 @@
 cspice/
-eph/
-gkernels/
+data/
+.idea/
 
 
 # Byte-compiled / optimized / DLL files

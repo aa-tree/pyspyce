@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import core.spyce_core
+
+import os;
+import pkg_resources;
 
 class spyce_list_bodies:
     # This class serves as a temporary data store for body model information.
@@ -32,8 +34,10 @@ class spyce_list_bodies:
 
 
     def get_ibc_eph_ref_by_id(self, bodyid, spicelibObj):
-        
-        list_of_bodies_file=spicelibObj.SPYCE_LIB+"spice_supp/list_of_bodies.csv"
+        #script_dir=os.path.dirname(os.path.realpath(__file__))
+        #list_of_bodies_file= script_dir+"/spice_supp/list_of_bodies.csv"
+        list_of_bodies_file=pkg_resources.resource_filename('pyspyce', 'spice_supp/list_of_bodies.csv')
+
         
         with open(list_of_bodies_file) as f:
             content = f.readlines()

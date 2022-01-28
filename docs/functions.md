@@ -6,7 +6,7 @@
 
 Import spyce_core module.
 
-    from spyce_core import *;
+    from pyspyce import *;
 
 Then, you will need to create a list containing the NAIF ids of the bodies you want to include in the model. 
 
@@ -14,21 +14,15 @@ Example:
 
     model=[10, 399]
 
-You will then create a [spyce_core](#spyce_core) object.
+You will then create a [pyspyce](#pyspyce) object, specifying the path to the folder where you downloaded the Ephemeris.
 
-    i_spyce_lib_location="/full-path-to-spyce/"
-    spyce=spyce_core(i_spyce_lib_location,model)
+    var_locationofDownloadedEphemeris='/path-to-JPL-Ephemeris/'
+
+    pyspyceOBJ=pyspyce(var_locationofDownloadedEphemeris,model)
 
 
-The rest of the functions included with this library will also be called through the spyce_core object.
+The rest of the functions included with this library will also be called through the *pyspyce* object.
 
-**Important**
-
-While running your python script, you will need to add path to this repository to your PYTHONPATH.
-
-Example:
-
-    PYTHONPATH=/path-to-spyce/ python3 yourscript.py
 
 ### Additional Environment Variables
 
@@ -52,19 +46,19 @@ Barycentre refers to the origin of the reference frame. You can set the barycent
 
 
 ## List of Functions
-### <a name="spyce_core"></a>spyce_core
+### <a name="pyspyce"></a>pyspyce
 
-    spyce_core(spyce_core_location, model)
+    pyspyce(location-of-ephemeris-files, model)
 
 
-This is the constructor of spyce_core class. This is the first command that you need to call. It will initiate all variables required for spyce to function.
+This is the constructor of pyspyce class. This is the first command that you need to call. It will initiate all variables required for this library to function.
 
 
 ####Parameters
 
 | Variable| Type | Description |
 | -------| -------| -------|
-| spyce_core_location| String|The full path to the root folder of spyce|
+| location-of-ephemeris-files| String|The full path to the folder where JPL ephemeris has been downloaded|
 | model| List|List of NAIF ids of the bodies to be included in calculations|
 
 
@@ -74,9 +68,9 @@ This is the constructor of spyce_core class. This is the first command that you 
 
     model=[10, 399]
 
-    i_spyce_lib_location="/full-path-to-spyce/"
+    var_locationofDownloadedEphemeris='/path-to-JPL-Ephemeris/'
 
-    spyce=spyce_core(i_spyce_lib_location,model)
+    pyspyceOBJ=pyspyce(var_locationofDownloadedEphemeris,model)
 
 ### get_referenceframe
     get_referenceframe()
@@ -85,8 +79,8 @@ Gets the current reference frame.
 
 ####Example
 
-    # Assuming you have initialised spyce object.
-    print(spyce.get_referenceframe())
+    # Assuming you have initialised pyspyce object.
+    print(pyspyceOBJ.get_referenceframe())
 
 ### set_referenceframe
     set_referenceframe(frame)
@@ -107,10 +101,10 @@ Please note that using this function doesn't perform any transformation. It will
 
 ####Example
 
-    # Assuming you have initialised spyce object.
-    spyce.set_referenceframe("J2000") #Uses the J2000 inertial reference frame.
+    # Assuming you have initialised pyspyce object.
+    pyspyceOBJ.set_referenceframe("J2000") #Uses the J2000 inertial reference frame.
 
-    spyce.set_referenceframe("DE-118") #Uses the JPL Developmental Ephemeris (118) reference frame.
+    pyspyceOBJ.set_referenceframe("DE-118") #Uses the JPL Developmental Ephemeris (118) reference frame.
 
 
 ### set_barycentre
@@ -127,8 +121,8 @@ Sets the barycentre i.e. the centre of reference frame(J2000) for calculations.
 
 #### Example
 
-    # Assuming you have initialised spyce object.
-    set_barycentre(399) # Sets earth as the reference frame origin.
+    # Assuming you have initialised pyspyce object.
+    pyspyceOBJ.set_barycentre(399) # Sets earth as the reference frame origin.
 
 
 
@@ -169,7 +163,6 @@ For all possible input formats please refer to the NAIF's [docs](https://naif.jp
 
 #### Example
 
-    # Assuming you have initialised spyce object.
     print(converttime_toet("2019-12-18T12:28:24"))
 
 
@@ -194,8 +187,8 @@ Gets the state(position and velocity) of a body with respect to the barycentre.
 
 To get the state vector of Earth w.r.t. the solar system barycentre.
 
-    spyce.set_barycentre(0) #IBC is the reference frame. 0 denotes solar system   barycentre
-    pos_earth=spyce.get_state_wrt_barycentre(et,399)
+    pyspyceOBJ.set_barycentre(0) #IBC is the reference frame. 0 denotes solar system   barycentre
+    pos_earth=pyspyceOBJ.get_state_wrt_barycentre(et,399)
     for x in pos_earth:
         print(x)
 
@@ -217,8 +210,8 @@ First, initialise a [spyce_core](#spyce_core) object.
 
 To get μ for Earth (id=399):
 
-    # Assuming you have initialised spyce object.
-    print(spyce.get_mu(399))
+    # Assuming you have initialised pyspyceOBJ object.
+    print(pyspyceOBJ.get_mu(399))
 
 
 ### get_mu_m3
@@ -238,5 +231,5 @@ First, initialise a [spyce_core](#spyce_core) object.
 
 To get μ for Earth (id=399):
     
-    # Assuming you have initialised spyce object.
-    print(spyce.get_mu_m3(399))
+    # Assuming you have initialised pyspyceOBJ object.
+    print(pyspyceOBJ.get_mu_m3(399))

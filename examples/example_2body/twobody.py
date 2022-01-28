@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from pyspyce import spyce_core as pyspyce;
 
-from core.spyce_core import *;
 import ctypes
 
-i_spyce_lib_location="/media/projectdrv/programming-workspace/python/spyce/"
+i_spyce_lib_location="/media/projectdrv/programming-workspace/python/pyspyce/"
 model=[10, 399]
 
-spyce=spyce_core(i_spyce_lib_location,model)
+spyce=pyspyce(i_spyce_lib_location,model)
 
 #b_string1="01/01/2019"
 b_string1="2019-12-18T12:28:24"
